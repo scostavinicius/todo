@@ -29,25 +29,38 @@ public class TaskService {
                 .orElseThrow(() -> new TaskNotFoundException("Tarefa com ID " + id + " não foi encontrada."));
     }
 
-    @Transactional
-    public Task createTask(Task task) {
-        return taskRepository.save(task);
+    // Obter todas as tasks de um usuário
+    @Transactional(readOnly = true)
+    public List<Task> getTasksByUser(Long userId) {
+        return taskRepository.findByUserId(userId);
     }
 
-    @Transactional
-    public Task updateTask(Long id, Task taskUpdate) {
-        Task task = getTaskById(id);
-
-        task.setTitle(taskUpdate.getTitle());
-        task.setDescription(taskUpdate.getDescription());
-        task.setCompleted(taskUpdate.getCompleted());
-
-        return taskRepository.save(task);
+    // Obter task específica de um usuário
+    @Transactional(readOnly = true)
+    public Task getTaskByUser(Long userId, Long taskId) {
+        return taskRepository.findByUserIdAndId(userId, taskId)
+                .orElseThrow(() -> new TaskNotFoundException("Tarefa com ID " + taskId + " não encontrada para o usuário com ID " + userId));
     }
 
-    @Transactional
-    public void deleteTask(Long id) {
-        Task task = getTaskById(id);
-        taskRepository.delete(task);
-    }
+//    @Transactional
+//    public Task createTask(Task task) {
+//        return taskRepository.save(task);
+//    }
+//
+//    @Transactional
+//    public Task updateTask(Long id, Task taskUpdate) {
+//        Task task = getTaskById(id);
+//
+//        task.setTitle(taskUpdate.getTitle());
+//        task.setDescription(taskUpdate.getDescription());
+//        task.setCompleted(taskUpdate.getCompleted());
+//
+//        return taskRepository.save(task);
+//    }
+//
+//    @Transactional
+//    public void deleteTask(Long id) {
+//        Task task = getTaskById(id);
+//        taskRepository.delete(task);
+//    }
 }
