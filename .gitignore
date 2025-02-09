@@ -2,7 +2,7 @@
 .idea/
 
 # Arquivos de compilação
-.target/
+target/
 
 # Compiled class file
 *.class
