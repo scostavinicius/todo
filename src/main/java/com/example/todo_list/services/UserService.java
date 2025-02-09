@@ -1,9 +1,9 @@
 package com.example.todo_list.services;
 
+import com.example.todo_list.dto.UserDTO;
 import com.example.todo_list.entities.User;
 import com.example.todo_list.exceptions.UserNotFoundException;
 import com.example.todo_list.repositories.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,35 +18,44 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    @Transactional(readOnly = true)
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
-    }
-
-    @Transactional(readOnly = true)
-    public User getUserById(Long id) {
+    // Método auxiliar
+    public User findUserById(Long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("Usuário com ID " + id + " não foi encontrado."));
     }
 
-    @Transactional
-    public User createUser(User user) {
-        return userRepository.save(user);
+    @Transactional(readOnly = true)
+    public List<UserDTO> getAllUsers() {
+        List<User> users = userRepository.findAll();
+        return users.stream().map(user -> new UserDTO(user)).toList();
+    }
+
+    @Transactional(readOnly = true)
+    public UserDTO getUserById(Long id) {
+        User user = findUserById(id);
+        return new UserDTO(user);
     }
 
     @Transactional
-    public User updateUser(Long id, User userUpdate) {
-        User user = getUserById(id);
+    public UserDTO createUser(User user) {
+        User createdUser = userRepository.save(user);
+        return new UserDTO(createdUser);
+    }
+
+    @Transactional
+    public UserDTO updateUser(Long id, User userUpdate) {
+        User user = findUserById(id);
 
         user.setName(userUpdate.getName());
         user.setEmail(userUpdate.getEmail());
 
-        return userRepository.save(user);
+        User updatedUser = userRepository.save(user);
+        return new UserDTO(updatedUser);
     }
 
     @Transactional
     public void deleteUser(Long id) {
-        User user = getUserById(id);
+        User user = findUserById(id);
         userRepository.delete(user);
     }
 }

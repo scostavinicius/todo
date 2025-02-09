@@ -1,5 +1,7 @@
 package com.example.todo_list.controllers;
 
+import com.example.todo_list.dto.TaskDTO;
+import com.example.todo_list.dto.UserDTO;
 import com.example.todo_list.entities.Task;
 import com.example.todo_list.entities.User;
 import com.example.todo_list.services.TaskService;
@@ -22,39 +24,39 @@ public class UserController {
 
     // Buscar todos os usuários
     @GetMapping
-    public List<User> getAllUsers() {
+    public List<UserDTO> getAllUsers() {
         return userService.getAllUsers();
     }
 
     // Buscar um usuário pelo id
     @GetMapping("/{id}")
-    public User getUserById(@PathVariable Long id) {
+    public UserDTO getUserById(@PathVariable Long id) {
         return userService.getUserById(id);
     }
 
     // Obter tasks de um usuário específico
     @GetMapping("/{userId}/tasks")
-    public List<Task> getTasksByUser(@PathVariable Long userId) {
-        userService.getUserById(userId); // Lança exceção se o usuário não existir
+    public List<TaskDTO> getTasksByUser(@PathVariable Long userId) {
+        userService.findUserById(userId); // Lança exceção se o usuário não existir
         return taskService.getTasksByUser(userId);
     }
 
     // Obter task específica de um usuário
     @GetMapping("/{userId}/tasks/{taskId}")
-    public Task getTaskByUser(@PathVariable Long userId, @PathVariable Long taskId) {
-        userService.getUserById(userId); // Lança exceção se o usuário não existir
+    public TaskDTO getTaskByUser(@PathVariable Long userId, @PathVariable Long taskId) {
+        userService.findUserById(userId); // Lança exceção se o usuário não existir
         return taskService.getTaskByUser(userId, taskId);
     }
 
     // Criar um novo usuário
     @PostMapping
-    public User createUser(@RequestBody User user) {
+    public UserDTO createUser(@RequestBody User user) {
         return userService.createUser(user);
     }
 
     // Atualizar um usuário
     @PostMapping("/{id}")
-    public User updateUser(@PathVariable Long id, @RequestBody User user) {
+    public UserDTO updateUser(@PathVariable Long id, @RequestBody User user) {
         return userService.updateUser(id, user);
     }
 

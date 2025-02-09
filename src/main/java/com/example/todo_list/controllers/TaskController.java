@@ -1,6 +1,6 @@
 package com.example.todo_list.controllers;
 
-import com.example.todo_list.entities.Task;
+import com.example.todo_list.dto.TaskDTO;
 import com.example.todo_list.services.TaskService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,13 +21,13 @@ public class TaskController {
 
     // Obter todas as tasks
     @GetMapping
-    public List<Task> getAllTasks() {
+    public List<TaskDTO> getAllTasks() {
         return taskService.getAllTasks();
     }
 
     // Obter uma tarefa específica
     @GetMapping("/{id}")
-    public Task getTaskById(@PathVariable Long id) {
+    public TaskDTO getTaskById(@PathVariable Long id) {
         return taskService.getTaskById(id);
     }
 }
