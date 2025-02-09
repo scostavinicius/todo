@@ -1,6 +1,9 @@
 # Arquivos de configuração de IDEs
 .idea/
 
+# Arquivos de compilação
+.target/
+
 # Compiled class file
 *.class
 
