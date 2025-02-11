@@ -48,7 +48,7 @@ public class UserService {
     }
 
     @Transactional
-    public UserDTO updateUser(Long id, User userUpdate) {
+    public UserDTO updateUser(Long id, UserDTO userUpdate) {
         User user = findUserById(id);
 
         user.setName(userUpdate.getName());

@@ -56,8 +56,8 @@ public class UserController {
 
     // Atualizar um usuário
     @PostMapping("/{id}")
-    public UserDTO updateUser(@PathVariable Long id, @RequestBody User user) {
-        return userService.updateUser(id, user);
+    public UserDTO updateUser(@PathVariable Long id, @RequestBody UserDTO userDTO) {
+        return userService.updateUser(id, userDTO);
     }
 
     // Deletar um usuário
