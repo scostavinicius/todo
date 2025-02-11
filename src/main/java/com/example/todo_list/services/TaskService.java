@@ -2,7 +2,9 @@ package com.example.todo_list.services;
 
 import com.example.todo_list.dto.TaskDTO;
 import com.example.todo_list.entities.Task;
+import com.example.todo_list.entities.User;
 import com.example.todo_list.exceptions.TaskNotFoundException;
+import com.example.todo_list.exceptions.UserNotFoundException;
 import com.example.todo_list.repositories.TaskRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,9 +15,11 @@ import java.util.List;
 public class TaskService {
 
     private final TaskRepository taskRepository;
+    private final UserService userService;
 
-    public TaskService(TaskRepository taskRepository) {
+    public TaskService(TaskRepository taskRepository, UserService userService) {
         this.taskRepository = taskRepository;
+        this.userService = userService;
     }
 
     // Método auxiliar
@@ -53,9 +57,18 @@ public class TaskService {
     }
 
     @Transactional
-    public TaskDTO createTask(Task task) {
-        Task createdTask = taskRepository.save(task);
-        return new TaskDTO(createdTask);
+    public TaskDTO createTask(Long userId, TaskDTO taskDTO) {
+        User user = userService.findUserById(userId);
+
+        Task task = new Task();
+        task.setTitle(taskDTO.getTitle());
+        task.setDescription(taskDTO.getDescription());
+        task.setCompleted(taskDTO.getCompleted());
+        task.setUser(user);
+
+        task = taskRepository.save(task);
+
+        return new TaskDTO(task);
     }
 
     @Transactional

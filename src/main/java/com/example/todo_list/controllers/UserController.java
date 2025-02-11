@@ -60,6 +60,12 @@ public class UserController {
         return userService.updateUser(id, userDTO);
     }
 
+    // Adiciona uma task para um usuário
+    @PostMapping("/{userId}/tasks")
+    public TaskDTO createTask(@PathVariable Long userId,@RequestBody TaskDTO taskDTO) {
+        return taskService.createTask(userId, taskDTO);
+    }
+
     // Deletar um usuário
     @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable Long id) {
