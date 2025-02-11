@@ -37,9 +37,14 @@ public class UserService {
     }
 
     @Transactional
-    public UserDTO createUser(User user) {
-        User createdUser = userRepository.save(user);
-        return new UserDTO(createdUser);
+    public UserDTO createUser(UserDTO userDTO) {
+        User user = new User();
+        user.setName(userDTO.getName());
+        user.setEmail(userDTO.getEmail());
+
+        user = userRepository.save(user);
+
+        return new UserDTO(user);
     }
 
     @Transactional

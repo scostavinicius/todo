@@ -50,8 +50,8 @@ public class UserController {
 
     // Criar um novo usuário
     @PostMapping
-    public UserDTO createUser(@RequestBody User user) {
-        return userService.createUser(user);
+    public UserDTO createUser(@RequestBody UserDTO userDTO) {
+        return userService.createUser(userDTO);
     }
 
     // Atualizar um usuário
