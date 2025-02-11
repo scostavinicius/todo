@@ -72,14 +72,13 @@ public class TaskService {
     }
 
     @Transactional
-    public Task updateTask(Long id, Task taskUpdate) {
-        Task task = findTaskById(id);
-
+    public TaskDTO updateTask(Long taskId, TaskDTO taskUpdate) {
+        Task task = findTaskById(taskId);
         task.setTitle(taskUpdate.getTitle());
         task.setDescription(taskUpdate.getDescription());
         task.setCompleted(taskUpdate.getCompleted());
 
-        return taskRepository.save(task);
+        return new TaskDTO(task);
     }
 
     @Transactional
